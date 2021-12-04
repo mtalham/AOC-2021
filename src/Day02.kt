@@ -1,23 +1,24 @@
 fun main() {
-  fun part1(input: List<String>): Int {
+  data class Operation(val direction: String, val amount: Int)
+
+  fun part1(input: List<Operation>): Int {
     var depth = 0
     var horizontalPosition = 0
-    input.map { it.split(' ') }.forEach { (direction, amount) ->
+    input.forEach { (direction, amount) ->
       when (direction) {
-        "up" -> depth -= amount.toInt()
-        "down" -> depth += amount.toInt()
-        "forward" -> horizontalPosition += amount.toInt()
+        "up" -> depth -= amount
+        "down" -> depth += amount
+        "forward" -> horizontalPosition += amount
       }
     }
     return depth * horizontalPosition
   }
 
-  fun part2(input: List<String>): Int {
+  fun part2(input: List<Operation>): Int {
     var aim = 0
     var depth = 0
     var horizontalPosition = 0
-    input.map { it.split(' ') }.forEach { (direction, amountString) ->
-      val amount = amountString.toInt()
+    input.forEach { (direction, amount) ->
       when (direction) {
         "up" -> aim -= amount
         "down" -> aim += amount
@@ -31,6 +32,8 @@ fun main() {
   }
 
   val input = readInput("Day02")
+    .map { it.split(' ') }
+    .map { Operation(it[0], it[1].toInt()) }
   println(part1(input))
   println(part2(input))
 }
